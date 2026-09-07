@@ -3,6 +3,27 @@
 형식은 [Keep a Changelog](https://keepachangelog.com/en/1.1.0/)와
 [Semantic Versioning](https://semver.org/spec/v2.0.0.html)을 따릅니다.
 
+## [0.5.0] - 2026-09-07
+
+### Added
+
+- 중앙 `HierarchyTagsManager` 기반 태그 사전 조회
+- 프로젝트별 Catalog 데이터 자동 생성 및 Player 자동 로드
+- 역직렬화된 태그의 지연 Redirect 해석
+
+### Changed
+
+- 생성 C# Redirect 파일을 숨김 데이터 패키지의 Catalog JSON으로 대체
+- 태그와 컨테이너가 최초 사용 시 Redirect 결과를 확정하도록 변경
+- 패키지 네임스페이스와 샘플을 `HierarchyTags`로 통일
+
+### Fixed
+
+- 최종 대상이 삭제된 Redirect가 남는 문제
+- 데이터 패키지 매니페스트의 줄바꿈 차이 문제
+- 데이터 패키지 자동 등록 실패 후 재시도 문제
+- 기존 패키지 파일 GUID 호환성
+
 ## [0.4.0] - 2026-09-07
 
 ### Changed

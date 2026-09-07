@@ -1,7 +1,7 @@
 {
   "name": "com.deukyeonglee.hierarchytags",
   "displayName": "HierarchyTags",
-  "version": "0.4.0",
+  "version": "0.5.0",
   "unity": "6000.4",
   "unityRelease": "7f1",
   "description": "Serializable, case-insensitive hierarchical identifiers with code and Project Settings registration, Inspector selection, and automatic redirects.",
