@@ -1,0 +1,16 @@
+{
+    "name": "Deukyeonglee.HierarchyTags.Runtime",
+    "rootNamespace": "Deukyeonglee.HierarchyTags",
+    "references": [
+         "Deukyeonglee.HierarchyTags.Contracts"
+    ],
+    "includePlatforms": [],
+    "excludePlatforms": [],
+    "allowUnsafeCode": false,
+    "overrideReferences": false,
+    "precompiledReferences": [],
+    "autoReferenced": true,
+    "defineConstraints": [],
+    "versionDefines": [],
+    "noEngineReferences": false
+}

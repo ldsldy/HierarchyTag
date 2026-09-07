@@ -1,0 +1,20 @@
+{
+    "name": "Deukyeonglee.HierarchyTags.Editor",
+    "rootNamespace": "Deukyeonglee.HierarchyTags.Editor",
+    "references": [
+        "Deukyeonglee.HierarchyTags.Runtime",
+        "Deukyeonglee.HierarchyTags.Contracts",
+        "Deukyeonglee.HierarchyTags.Logic"
+    ],
+    "includePlatforms": [
+        "Editor"
+    ],
+    "excludePlatforms": [],
+    "allowUnsafeCode": false,
+    "overrideReferences": false,
+    "precompiledReferences": [],
+    "autoReferenced": true,
+    "defineConstraints": [],
+    "versionDefines": [],
+    "noEngineReferences": false
+}
