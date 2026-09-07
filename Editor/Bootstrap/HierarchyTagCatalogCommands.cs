@@ -1,8 +1,8 @@
-using Deukyeonglee.HierarchyTags.Contracts;
+using HierarchyTags.Contracts;
 using UnityEditor;
 using UnityEngine;
 
-namespace Deukyeonglee.HierarchyTags.Editor.Bootstrap
+namespace HierarchyTags.Editor.Bootstrap
 {
     /// <summary>
     /// 이 메뉴는 실행할 때마다 서비스를 생성하는 일회성 확인 도구입니다.

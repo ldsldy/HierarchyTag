@@ -1,8 +1,8 @@
 using System;
 using System.Collections.Generic;
-using Deukyeonglee.HierarchyTags.Contracts;
+using HierarchyTags.Contracts;
 
-namespace Deukyeonglee.HierarchyTags.Application
+namespace HierarchyTags.Application
 {
     /// <summary>
     /// 설정 출처의 태그 추가, 삭제 및 이름 변경을 처리합니다.

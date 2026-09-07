@@ -2,7 +2,7 @@ using UnityEditor;
 using UnityEditor.Build;
 using UnityEditor.Build.Reporting;
 
-namespace Deukyeonglee.HierarchyTags.Editor.Bootstrap
+namespace HierarchyTags.Editor.Bootstrap
 {
     internal sealed class HierarchyTagBuildProcessor : IPreprocessBuildWithReport
     {

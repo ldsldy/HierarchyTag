@@ -1,0 +1,70 @@
+# Unity generated directories
+/[Ll]ibrary/
+/[Tt]emp/
+/[Oo]bj/
+/[Ll]ogs/
+/[Uu]ser[Ss]ettings/
+/[Mm]emoryCaptures/
+/[Rr]ecordings/
+
+# Build outputs
+/[Bb]uild/
+/[Bb]uilds/
+*.apk
+*.aab
+*.app
+*.unitypackage
+*.unitypackage.meta
+*.tgz
+
+# Visual Studio and generated C# project files
+.vs/
+*.csproj
+*.unityproj
+*.sln
+*.slnx
+*.suo
+*.user
+*.userprefs
+*.pidb
+*.booproj
+*.svd
+*.opendb
+*.VC.db
+*.DotSettings.user
+
+# JetBrains Rider
+.idea/
+*.sln.iml
+
+# Visual Studio Code
+.vscode/
+
+# Tool caches
+.gradle/
+.consulo/
+ExportedObj/
+
+# Debug symbols and crash files
+*.pdb
+*.mdb
+*.pidb.meta
+*.pdb.meta
+*.mdb.meta
+sysinfo.txt
+mono_crash.*
+
+# Operating system files
+.DS_Store
+Thumbs.db
+Desktop.ini
+
+# Temporary and merge files
+*.tmp
+*.temp
+*.swp
+*.swo
+*.orig
+
+# Local registry credentials
+.npmrc

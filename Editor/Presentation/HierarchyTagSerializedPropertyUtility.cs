@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEditor;
 using UnityEngine;
 
-namespace Deukyeonglee.HierarchyTags.Editor.Presentation
+namespace HierarchyTags.Editor.Presentation
 {
     /// <summary>
     /// HierarchyTag 및 HierarchyTagContainer의 직렬화 데이터를 다루는 유틸리티 클래스입니다.

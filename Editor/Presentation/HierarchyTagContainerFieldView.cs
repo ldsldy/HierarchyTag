@@ -1,10 +1,10 @@
 using System;
 using System.Collections.Generic;
-using Deukyeonglee.HierarchyTags.Contracts;
+using HierarchyTags.Contracts;
 using UnityEditor;
 using UnityEngine;
 
-namespace Deukyeonglee.HierarchyTags.Editor.Presentation
+namespace HierarchyTags.Editor.Presentation
 {
     /// <summary>
     /// 컨테이너의 현재 선택을 표시하고 선택 팝업을 엽니다.

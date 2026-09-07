@@ -1,7 +1,7 @@
 using System.Collections.Generic;
-using Deukyeonglee.HierarchyTags.Contracts;
+using HierarchyTags.Contracts;
 
-namespace Deukyeonglee.HierarchyTags.Application
+namespace HierarchyTags.Application
 {
     /// <summary>
     /// 수동 태그와 관련 Redirect 설정을 읽고 저장합니다.

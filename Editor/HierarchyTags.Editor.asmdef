@@ -1,10 +1,10 @@
 {
-    "name": "Deukyeonglee.HierarchyTags.Editor",
-    "rootNamespace": "Deukyeonglee.HierarchyTags.Editor",
+    "name": "HierarchyTags.Editor",
+    "rootNamespace": "HierarchyTags.Editor",
     "references": [
-        "Deukyeonglee.HierarchyTags.Runtime",
-        "Deukyeonglee.HierarchyTags.Contracts",
-        "Deukyeonglee.HierarchyTags.Logic"
+        "HierarchyTags.Contracts",
+        "HierarchyTags.Logic"
+        "HierarchyTags.Runtime",
     ],
     "includePlatforms": [
         "Editor"

@@ -1,9 +1,9 @@
 using System;
 using System.Collections.Generic;
-using Deukyeonglee.HierarchyTags.Application;
-using Deukyeonglee.HierarchyTags.Contracts;
+using HierarchyTags.Application;
+using HierarchyTags.Contracts;
 
-namespace Deukyeonglee.HierarchyTags.Editor.Infrastructure
+namespace HierarchyTags.Editor.Infrastructure
 {
     /// <summary>
     /// Config 혹은 에디터 설정에서 등록된 태그를 수집하여 TagRegistration에 등록하는 역할을 수행하는 클래스입니다.

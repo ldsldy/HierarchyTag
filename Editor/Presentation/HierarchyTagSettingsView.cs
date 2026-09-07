@@ -1,11 +1,11 @@
 using System;
 using System.Collections.Generic;
-using Deukyeonglee.HierarchyTags.Application;
-using Deukyeonglee.HierarchyTags.Contracts;
+using HierarchyTags.Application;
+using HierarchyTags.Contracts;
 using UnityEditor;
 using UnityEngine;
 
-namespace Deukyeonglee.HierarchyTags.Editor.Presentation
+namespace HierarchyTags.Editor.Presentation
 {
     /// <summary>
     /// 통합 태그 트리와 수동 등록 편집 화면을 표시합니다.

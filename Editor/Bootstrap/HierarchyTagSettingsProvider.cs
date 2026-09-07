@@ -1,10 +1,10 @@
-using Deukyeonglee.HierarchyTags.Application;
-using Deukyeonglee.HierarchyTags.Contracts;
-using Deukyeonglee.HierarchyTags.Editor.Presentation;
+using HierarchyTags.Application;
+using HierarchyTags.Contracts;
+using HierarchyTags.Editor.Presentation;
 using System.Collections.Generic;
 using UnityEditor;
 
-namespace Deukyeonglee.HierarchyTags.Editor.Bootstrap
+namespace HierarchyTags.Editor.Bootstrap
 {
     /// <summary>
     /// Project Settings에 태그 설정 화면을 등록하고,

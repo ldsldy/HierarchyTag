@@ -1,10 +1,10 @@
 using System;
 using System.Collections.Generic;
-using Deukyeonglee.HierarchyTags.Contracts;
+using HierarchyTags.Contracts;
 using UnityEngine;
 using UnityEngine.Scripting.APIUpdating;
 
-namespace Deukyeonglee.HierarchyTags
+namespace HierarchyTags
 {
     /// <summary>
     /// 하나 이상의 HierarchyTag를 중복 없이 보관하는 컨테이너 클래스입니다.

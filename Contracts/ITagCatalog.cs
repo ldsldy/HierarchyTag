@@ -1,6 +1,6 @@
 using System.Collections.Generic;
 
-namespace Deukyeonglee.HierarchyTags.Contracts
+namespace HierarchyTags.Contracts
 {
     public interface ITagCatalog
     {

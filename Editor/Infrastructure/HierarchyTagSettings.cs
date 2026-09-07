@@ -1,12 +1,12 @@
 using System;
 using System.Collections.Generic;
-using Deukyeonglee.HierarchyTags.Application;
-using Deukyeonglee.HierarchyTags.Contracts;
+using HierarchyTags.Application;
+using HierarchyTags.Contracts;
 using UnityEditor;
 using UnityEngine;
 using UnityEngine.Scripting.APIUpdating;
 
-namespace Deukyeonglee.HierarchyTags.Editor
+namespace HierarchyTags.Editor
 {
     /// <summary>
     /// 수동 태그 등록과 Redirect 설정을 저장합니다.

@@ -1,6 +1,6 @@
 using System;
 
-namespace Deukyeonglee.HierarchyTags.Contracts
+namespace HierarchyTags.Contracts
 {
     /// <summary>
     /// Unity에 의존하지 않는 태그 식별자입니다.

@@ -1,9 +1,9 @@
 using System;
-using Deukyeonglee.HierarchyTags.Contracts;
+using HierarchyTags.Contracts;
 using UnityEditor;
 using UnityEngine;
 
-namespace Deukyeonglee.HierarchyTags.Editor.Presentation
+namespace HierarchyTags.Editor.Presentation
 {
     internal static class HierarchyTagFieldView
     {

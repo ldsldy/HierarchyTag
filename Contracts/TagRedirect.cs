@@ -1,6 +1,6 @@
 using System;
 
-namespace Deukyeonglee.HierarchyTags.Contracts
+namespace HierarchyTags.Contracts
 {
     /// <summary>
     /// 이전 태그 이름을 대체할 새 태그 이름입니다.

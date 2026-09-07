@@ -1,9 +1,9 @@
 using System;
-using Deukyeonglee.HierarchyTags.Contracts;
+using HierarchyTags.Contracts;
 using UnityEngine;
 using UnityEngine.Scripting.APIUpdating;
 
-namespace Deukyeonglee.HierarchyTags
+namespace HierarchyTags
 {
     /// <summary>대소문자를 구분하지 않는 직렬화 가능한 계층형 태그 식별자입니다.</summary>
     [Serializable]

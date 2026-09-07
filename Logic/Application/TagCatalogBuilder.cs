@@ -1,8 +1,8 @@
 using System;
 using System.Collections.Generic;
-using Deukyeonglee.HierarchyTags.Contracts;
+using HierarchyTags.Contracts;
 
-namespace Deukyeonglee.HierarchyTags.Application
+namespace HierarchyTags.Application
 {
     /// <summary>
     /// 출처별 등록을 병합하고 태그 계층을 구성합니다.

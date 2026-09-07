@@ -1,11 +1,11 @@
 using System;
 using System.Collections.Generic;
 using System.Reflection;
-using Deukyeonglee.HierarchyTags.Application;
-using Deukyeonglee.HierarchyTags.Contracts;
+using HierarchyTags.Application;
+using HierarchyTags.Contracts;
 using UnityEditor;
 
-namespace Deukyeonglee.HierarchyTags.Editor.Infrastructure
+namespace HierarchyTags.Editor.Infrastructure
 {
     /// <summary>
     /// 코드에 선언된 태그를 검색하고 등록 정보로 변환합니다.

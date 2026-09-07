@@ -1,10 +1,10 @@
 using System.Collections.Generic;
 using System;
 using UnityEditor;
-using Deukyeonglee.HierarchyTags.Contracts;
+using HierarchyTags.Contracts;
 using UnityEngine;
 
-namespace Deukyeonglee.HierarchyTags.Editor.Presentation
+namespace HierarchyTags.Editor.Presentation
 {
     internal sealed class HierarchyTagContainerPopup : PopupWindowContent
     {

@@ -1,8 +1,8 @@
 using System;
 using System.Collections.Generic;
-using Deukyeonglee.HierarchyTags.Contracts;
+using HierarchyTags.Contracts;
 
-namespace Deukyeonglee.HierarchyTags.Application
+namespace HierarchyTags.Application
 {
     /// <summary>
     /// 등록 정보를 수집하고 현재 태그 사전을 교체합니다.

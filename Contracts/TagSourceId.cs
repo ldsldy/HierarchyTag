@@ -1,6 +1,6 @@
 using System;
 
-namespace Deukyeonglee.HierarchyTags.Contracts
+namespace HierarchyTags.Contracts
 {
     /// <summary>
     /// 태그 정의를 제공하는 코드 또는 설정 출처입니다.

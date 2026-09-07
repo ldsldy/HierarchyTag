@@ -1,7 +1,7 @@
 using System.Collections.Generic;
-using Deukyeonglee.HierarchyTags.Contracts;
+using HierarchyTags.Contracts;
 
-namespace Deukyeonglee.HierarchyTags.Application
+namespace HierarchyTags.Application
 {
     /// <summary>
     /// 현재 제공할 수 있는 직접 등록 정보를 수집합니다.

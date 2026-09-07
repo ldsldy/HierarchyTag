@@ -1,7 +1,7 @@
 using System;
 using System.Collections.Generic;
 
-namespace Deukyeonglee.HierarchyTags.Contracts
+namespace HierarchyTags.Contracts
 {
     /// <summary>
     /// 태그 사전이 외부에 제공하는 읽기 전용 정보입니다.

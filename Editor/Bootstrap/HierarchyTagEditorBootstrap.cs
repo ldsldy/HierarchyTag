@@ -1,12 +1,12 @@
 using System;
-using Deukyeonglee.HierarchyTags.Application;
-using Deukyeonglee.HierarchyTags.Contracts;
-using Deukyeonglee.HierarchyTags.Editor.Infrastructure;
+using HierarchyTags.Application;
+using HierarchyTags.Contracts;
+using HierarchyTags.Editor.Infrastructure;
 using System.Collections.Generic;
 using UnityEditor;
 using UnityEngine;
 
-namespace Deukyeonglee.HierarchyTags.Editor.Bootstrap
+namespace HierarchyTags.Editor.Bootstrap
 {
     /// <summary>
     /// Editor 세션을 관리하는 Bootstrap

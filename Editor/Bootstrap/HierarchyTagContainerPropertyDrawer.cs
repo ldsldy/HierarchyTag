@@ -1,9 +1,9 @@
-using Deukyeonglee.HierarchyTags.Contracts;
-using Deukyeonglee.HierarchyTags.Editor.Presentation;
+using HierarchyTags.Contracts;
+using HierarchyTags.Editor.Presentation;
 using UnityEditor;
 using UnityEngine;
 
-namespace Deukyeonglee.HierarchyTags.Editor.Bootstrap
+namespace HierarchyTags.Editor.Bootstrap
 {
     [CustomPropertyDrawer(typeof(HierarchyTagContainer))]
     internal sealed class HierarchyTagContainerPropertyDrawer : PropertyDrawer

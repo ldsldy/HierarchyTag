@@ -1,4 +1,4 @@
-namespace Deukyeonglee.HierarchyTags.Contracts
+namespace HierarchyTags.Contracts
 {
     /// <summary>
     /// 태그 정의를 제공하는 출처의 종류입니다.

@@ -1,7 +1,7 @@
 using System;
 using System.Collections.Generic;
 
-namespace Deukyeonglee.HierarchyTags
+namespace HierarchyTags
 {
     // 프로젝트 생성 파일을 .asmref로 같은 어셈블리에 포함합니다.
     // 생성 전에도 컴파일할 수 있으며, 역직렬화에서 Unity API 없이 조회합니다.

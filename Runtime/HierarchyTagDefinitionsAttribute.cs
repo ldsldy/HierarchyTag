@@ -1,6 +1,6 @@
 using System;
 
-namespace Deukyeonglee.HierarchyTags
+namespace HierarchyTags
 {
     /// <summary>
     /// HierarchyTag 선언을 제공하는 클래스를 표시합니다.
