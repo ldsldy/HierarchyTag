@@ -4,7 +4,7 @@
     "references": [
         "HierarchyTags.Contracts",
         "HierarchyTags.Logic",
-        "HierarchyTags.Runtime",
+        "HierarchyTags.Runtime"
     ],
     "includePlatforms": [
         "Editor"
