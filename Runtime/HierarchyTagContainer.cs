@@ -23,6 +23,9 @@ namespace HierarchyTags
         [NonSerialized]
         private IReadOnlyList<HierarchyTag> readOnlyTags;
 
+        [NonSerialized]
+        private bool normalizationPending;
+
         /// <summary>
         /// 컨테이너에 포함된 태그의 수를 반환합니다.
         /// </summary>
@@ -124,9 +127,7 @@ namespace HierarchyTags
         /// 모든 태그를 Catalog로 해석한 새 컨테이너를 반환합니다.
         /// 하나라도 해석할 수 없으면 실패하며 원본은 변경하지 않습니다.
         /// </summary>
-        public bool TryResolve(
-            ITagCatalog catalog,
-            out HierarchyTagContainer resolvedContainer)
+        public bool TryResolve(ITagCatalog catalog, out HierarchyTagContainer resolvedContainer)
         {
             if (catalog == null)
             {
@@ -308,17 +309,28 @@ namespace HierarchyTags
         /// </summary>
         public void OnAfterDeserialize()
         {
-            EnsureCollection();
-            List<HierarchyTag> normalized = NormalizeTags(tags, applyRedirects: true);
-            tags.Clear();
-            tags.AddRange(normalized);
+            tags ??= new List<HierarchyTag>();
+
+            // 개별 태그 콜백의 호출 순서에 의존하지 않도록
+            // 저장값을 해석 대기 상태로 만듭니다.
+            for (int i = 0; i < tags.Count; i++)
+            {
+                HierarchyTag tag = tags[i];
+                tag.OnAfterDeserialize();
+                tags[i] = tag;
+            }
+
+            normalizationPending = true;
             readOnlyTags = null;
         }
 
-        // Editor도 같은 목록 규칙을 사용합니다. Redirect는 역직렬화에서만 적용합니다.
-        internal static List<HierarchyTag> NormalizeTags(
-            IEnumerable<HierarchyTag> values,
-            bool applyRedirects = false)
+        /// <summary>
+        /// 역직렬화된 목록은 최초 사용 시 Redirect 적용·중복 제거·정렬합니다.
+        /// </summary>
+        /// <param name="values">정규화할 태그 목록</param>
+        /// <param name="applyRedirects">Redirect를 적용할지 여부</param>
+        /// <returns>정규화된 태그 목록</returns>
+        internal static List<HierarchyTag> NormalizeTags(IEnumerable<HierarchyTag> values, bool applyRedirects = false)
         {
             var normalizedTags = new List<HierarchyTag>();
 
@@ -357,6 +369,19 @@ namespace HierarchyTags
                 tags = new List<HierarchyTag>();
                 readOnlyTags = null;
             }
+
+            if (!normalizationPending)
+            {
+                return;
+            }
+
+            // 실패하면 기존 목록과 pending 상태를 유지합니다.
+            // 사전 준비 후 다시 접근하면 재시도할 수 있습니다.
+            List<HierarchyTag> normalized = NormalizeTags(tags, applyRedirects: true);
+
+            tags = normalized;
+            readOnlyTags = null;
+            normalizationPending = false;
         }
     }
 }

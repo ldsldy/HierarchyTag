@@ -2,7 +2,8 @@
     "name": "HierarchyTags.Runtime",
     "rootNamespace": "HierarchyTags",
     "references": [
-         "HierarchyTags.Contracts"
+        "HierarchyTags.Contracts",
+        "HierarchyTags.Logic"
     ],
     "includePlatforms": [],
     "excludePlatforms": [],

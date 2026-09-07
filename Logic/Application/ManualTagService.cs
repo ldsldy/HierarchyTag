@@ -70,7 +70,14 @@ namespace HierarchyTags.Application
             }
 
             values.RemoveAt(index);
-            return TryValidateAndWrite(values, store.ReadRedirects(), catalog, out error);
+
+            List<TagRegistration> remainingRegistrations = CollectRegistrations(catalog, values);
+
+            TagCatalog remainingCatalog = TagCatalogBuilder.Build(remainingRegistrations);
+
+            List<TagRedirect> remainingRedirects = RemoveRedirectsWithMissingTargets(store.ReadRedirects(), catalog, remainingCatalog);
+
+            return TryValidateAndWrite(values, remainingRedirects, catalog, out error);
         }
 
         public bool TryRename(
@@ -207,6 +214,38 @@ namespace HierarchyTags.Application
             }
 
             return -1;
+        }
+
+        private static List<TagRedirect> RemoveRedirectsWithMissingTargets(IReadOnlyList<TagRedirect> redirects, ITagCatalog currentCatalog, ITagCatalog remainingCatalog)
+        {
+            var result = new List<TagRedirect>(redirects.Count);
+
+            foreach (TagRedirect redirect in redirects)
+            {
+                // 잘못된 기존 데이터는 여기서 조용히 지우지 않고
+                // 기존 검증 과정에서 오류로 처리하게 둡니다.
+                if (redirect == null)
+                {
+                    result.Add(redirect);
+                    continue;
+                }
+
+                // 현재 Catalog를 이용해 연쇄 Redirect의 최종 대상을 얻습니다.
+                // 해석할 수 없는 Redirect는 보존하여 이후 검증에서 오류로 처리합니다.
+                if (!currentCatalog.TryResolve(redirect.OldTag.Value, out TagId finalTarget))
+                {
+                    result.Add(redirect);
+                    continue;
+                }
+
+                // 삭제 이후에도 최종 대상이 존재하는 Redirect만 보존합니다.
+                if (remainingCatalog.Contains(finalTarget))
+                {
+                    result.Add(redirect);
+                }
+            }
+
+            return result;
         }
     }
 }

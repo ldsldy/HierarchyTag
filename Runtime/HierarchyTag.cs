@@ -14,6 +14,9 @@ namespace HierarchyTags
         [SerializeField]
         private SerializedName name;
 
+        [NonSerialized]
+        private SerializedTagResolution resolution;
+
         [Serializable]
         private struct SerializedName
         {
@@ -22,7 +25,7 @@ namespace HierarchyTags
 
         public static HierarchyTag None => default;
 
-        public readonly string Value => name.value ?? string.Empty;
+        public readonly string Value => resolution != null ? resolution.Value : name.value ?? string.Empty;
 
         public readonly bool IsNone => string.IsNullOrEmpty(name.value);
 
@@ -67,6 +70,7 @@ namespace HierarchyTags
             }
 
             name = new SerializedName { value = value };
+            resolution = null;
         }
 
         public static bool TryCreate(string value, out HierarchyTag tag)
@@ -95,7 +99,12 @@ namespace HierarchyTags
                 return true;
             }
 
-            if (!catalog.TryResolve(Value, out TagId resolvedId))
+            string value = resolution != null
+                ? resolution.ValueForExplicitResolution
+                : name.value ?? string.Empty;
+
+
+            if (!catalog.TryResolve(value, out TagId resolvedId))
             {
                 return false;
             }
@@ -157,13 +166,32 @@ namespace HierarchyTags
 
         public static bool operator !=(HierarchyTag left, HierarchyTag right) => !left.Equals(right);
 
-        public void OnBeforeSerialize() { }
+        public void OnBeforeSerialize()
+        {
+            // 이미 해석한 값만 저장합니다.
+            // 직렬화 중에 초기화나 사전 조회를 시작하지 않습니다.
+            if (resolution != null &&
+                resolution.TryGetResolved(out string resolved))
+            {
+                name.value = resolved;
+            }
+        }
 
-        public void OnAfterDeserialize() => ApplySerializedRedirect();
+        public void OnAfterDeserialize()
+        {
+            // 여기서는 조회, 파일 로딩, 비교, 정렬을 하지 않습니다.
+            resolution = new SerializedTagResolution(name.value);
+        }
 
         internal void ApplySerializedRedirect()
         {
-            name.value = HierarchyTagRedirects.Resolve(Value);
+            // 컨테이너 정규화에서 사용하는 명시적인 확정 처리입니다.
+            resolution ??= new SerializedTagResolution(name.value);
+
+            string resolved = resolution.Value;
+
+            name.value = resolved;
+            resolution = null;
         }
     }
 }
