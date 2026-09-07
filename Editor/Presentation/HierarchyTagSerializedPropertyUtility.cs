@@ -96,6 +96,15 @@ namespace HierarchyTags.Editor.Presentation
         /// </summary>
         internal static List<HierarchyTag> ReadContainerTags(SerializedProperty tagsProperty)
         {
+            return HierarchyTagContainer.NormalizeTags(
+                ReadContainerTagsRaw(tagsProperty));
+        }
+
+        /// <summary>
+        /// 컨테이너 생성자가 정규화를 담당하는 편집 경로에서 사용하는 원본 읽기입니다.
+        /// </summary>
+        private static List<HierarchyTag> ReadContainerTagsRaw(SerializedProperty tagsProperty)
+        {
             var result = new List<HierarchyTag>();
 
             if (tagsProperty == null
@@ -118,7 +127,7 @@ namespace HierarchyTags.Editor.Presentation
                 result.Add(tag);
             }
 
-            return HierarchyTagContainer.NormalizeTags(result);
+            return result;
         }
 
         /// <summary>
@@ -194,7 +203,7 @@ namespace HierarchyTags.Editor.Presentation
                     continue;
                 }
 
-                var container = new HierarchyTagContainer(ReadContainerTags(tagsProperty));
+                var container = new HierarchyTagContainer(ReadContainerTagsRaw(tagsProperty));
                 bool changed;
                 if (selected)
                 {

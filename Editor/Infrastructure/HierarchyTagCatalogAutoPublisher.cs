@@ -2,6 +2,7 @@ using System;
 using HierarchyTags.Application;
 using HierarchyTags.Contracts;
 using HierarchyTags.Editor.Bootstrap;
+using UnityEditor.PackageManager;
 using UnityEditor;
 using UnityEngine;
 
@@ -23,8 +24,10 @@ namespace HierarchyTags.Editor.Infrastructure
 
         static HierarchyTagCatalogAutoPublisher()
         {
-            AssemblyReloadEvents.beforeAssemblyReload += Stop;
-            EditorApplication.quitting += Stop;
+            AssemblyReloadEvents.beforeAssemblyReload += Shutdown;
+            EditorApplication.quitting += Shutdown;
+
+            Events.registeredPackages += OnPackagesRegistered;
 
             Request();
         }
@@ -58,9 +61,7 @@ namespace HierarchyTags.Editor.Infrastructure
 
             if (EditorApplication.timeSinceStartup > deadline)
             {
-                Stop();
-
-                Debug.LogError("HierarchyTags 데이터 자동 준비가 시간 내에 " +
+                Fail("HierarchyTags 데이터 자동 준비가 시간 내에 " +
                     "완료되지 않았습니다. 태그 사전 오류와 " +
                     "Package Manager 상태를 확인하세요.");
 
@@ -91,24 +92,28 @@ namespace HierarchyTags.Editor.Infrastructure
                 {
                     SessionState.SetBool(ResolvePendingKey, true);
 
-                    try
-                    {
-                        UnityEditor.PackageManager.Client.Resolve();
-                    }
-                    catch
-                    {
-                        SessionState.EraseBool(ResolvePendingKey);
-                        throw;
-                    }
+                    Client.Resolve();
                 }
 
                 // 등록 완료까지 다음 Editor update에서 재확인합니다.
             }
             catch (Exception exception)
             {
-                Stop();
+                Fail("HierarchyTags 데이터 자동 준비에 실패했습니다.", exception);
+            }
+        }
 
-                Debug.LogError("HierarchyTags 데이터 자동 준비에 실패했습니다.");
+        private static void Fail(string message, Exception exception = null)
+        {
+            Stop();
+
+            // 실패한 작업의 요청 상태를 다음 작업으로 가져가지 않습니다.
+            SessionState.EraseBool(ResolvePendingKey);
+
+            Debug.LogError(message);
+
+            if (exception != null)
+            {
                 Debug.LogException(exception);
             }
         }
@@ -124,6 +129,24 @@ namespace HierarchyTags.Editor.Infrastructure
         {
             pending = false;
             EditorApplication.update -= Update;
+        }
+
+        private static void OnPackagesRegistered(PackageRegistrationEventArgs args)
+        {
+            // 패키지 등록 완료 후 현재 데이터 상태를 다시 확인합니다.
+            // 이벤트 콜백 안에서 직접 파일을 임포트하지 않습니다.
+            SessionState.EraseBool(ResolvePendingKey);
+            Request();
+        }
+
+        private static void Shutdown()
+        {
+            Events.registeredPackages -= OnPackagesRegistered;
+
+            AssemblyReloadEvents.beforeAssemblyReload -= Shutdown;
+            EditorApplication.quitting -= Shutdown;
+
+            Stop();
         }
     }
 }

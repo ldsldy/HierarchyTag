@@ -25,7 +25,7 @@ Unity 기본 `GameObject.tag`와 별도로 동작합니다.
 일반 C# 파일에 다음처럼 선언합니다.
 
 ```csharp
-using Deukyeonglee.HierarchyTags;
+using HierarchyTags;
 
 [HierarchyTagDefinitions]
 public static class StateTags
@@ -92,7 +92,7 @@ State
 컴포넌트에 직렬화 필드를 선언합니다.
 
 ```csharp
-using Deukyeonglee.HierarchyTags;
+using HierarchyTags;
 using UnityEngine;
 
 public sealed class TaggedObject : MonoBehaviour
@@ -115,29 +115,29 @@ public sealed class TaggedObject : MonoBehaviour
 
 ## 샘플 가져오기
 
-Package Manager에서 **Deukyeonglee Hierarchy Tags**를 선택한 뒤,
+Package Manager에서 **HierarchyTags**를 선택한 뒤,
 Samples의 **Code Tag Definitions**를 Import합니다.
 
 샘플에는 다음 태그가 선언되어 있습니다.
 
 | C# 필드 | 실제 태그 ID |
 |---|---|
-| `ExampleTags.StateAlive` | `State.Alive` |
-| `ExampleTags.StateDead` | `State.Dead` |
-| `ExampleTags.WidgetModal` | `Widget.Modal` |
+| `ExampleTags.State_Alive` | `State.Alive` |
+| `ExampleTags.State_Dead` | `State.Dead` |
+| `ExampleTags.Widget_Modal` | `Widget.Modal` |
 
 샘플의 태그는 다음처럼 사용합니다.
 
 ```csharp
-using Deukyeonglee.HierarchyTags;
-using Deukyeonglee.HierarchyTags.Samples;
+using HierarchyTags;
+using HierarchyTags.Samples;
 
-HierarchyTag state = ExampleTags.StateDead;
+HierarchyTag state = ExampleTags.State_Dead;
 
-bool isDead = state == ExampleTags.StateDead;
+bool isDead = state == ExampleTags.State_Dead;
 ```
 
-샘플은 `Deukyeonglee.HierarchyTags.Samples` 네임스페이스를 사용합니다.
+샘플은 `HierarchyTags.Samples` 네임스페이스를 사용합니다.
 
 ## 태그 비교하기
 
@@ -268,8 +268,8 @@ var tag = new HierarchyTag("State.Custom");
 State.Dying → State.Dead
 ```
 
-이후 이전 이름이 저장된 필드를 Unity가 역직렬화하면
-새 이름으로 변환합니다.
+이후 이전 이름이 저장된 필드를 Unity가 역직렬화하면 해석 대기 상태가 되고,
+최초로 값을 사용할 때 새 이름으로 변환하여 그 결과를 고정합니다.
 
 - 단일 태그는 이전 ID를 새 ID로 변환합니다.
 - 컨테이너는 변환 후 유효하지 않은 항목과 중복을 제거하고 정렬합니다.
@@ -283,8 +283,8 @@ Redirect는 지정한 전체 ID에 적용합니다.
 코드 태그의 이름은 선언 코드를 수정하여 관리합니다.
 코드 문자열을 바꾸는 것만으로 Redirect가 자동 추가되지는 않습니다.
 
-첫 사용이나 Redirect 변경 후에는 생성 코드의 컴파일이 필요할 수 있습니다.
-컴파일이 완료된 뒤 Play 또는 빌드를 실행합니다.
+Redirect 변경 후 Editor가 Catalog 데이터를 자동으로 갱신합니다.
+별도의 준비 메서드나 시작 컴포넌트는 필요하지 않습니다.
 
 ## 저장되는 파일
 
@@ -292,13 +292,14 @@ Redirect는 지정한 전체 ID에 적용합니다.
 |---|---|
 | 사용자 C# 파일 | 코드 태그 선언 |
 | `ProjectSettings/HierarchyTagSettings.asset` | 수동 태그와 Redirect |
-| `Assets/HierarchyTags.Generated/` | 자동 생성된 Redirect 코드와 어셈블리 참조 파일 |
+| `Packages/com.deukyeonglee.hierarchytags.data/` | 자동 생성되는 숨김 프로젝트 Catalog 데이터 패키지 |
 | 씬·프리팹 등의 직렬화 필드 | 각 오브젝트가 보관하는 태그 값 |
 
-설정 파일과 생성 폴더는 `.meta` 파일을 포함하여 버전 관리합니다.
+설정 파일은 프로젝트와 함께 버전 관리합니다.
+데이터 패키지는 Editor가 현재 설정과 코드 선언을 바탕으로 자동 갱신하므로 직접 편집하지 않습니다.
 
-생성 폴더는 직접 편집하지 않습니다.
-패키지를 제거할 때는 해당 패키지의 생성 폴더도 함께 정리합니다.
+이전 버전에서 생성된 `Assets/HierarchyTags.Generated/` 폴더가 남아 있다면
+사용자가 작성한 파일이 없는지 확인한 뒤 해당 생성 폴더와 `.meta`를 제거할 수 있습니다.
 
 ---
 
@@ -317,13 +318,13 @@ Logic/Application/
   등록 수집, 계층 구성, Redirect 검증, 수동 편집
 
 Runtime/
-  HierarchyTag, HierarchyTagContainer, Redirect 조회
+  HierarchyTag, HierarchyTagContainer, 중앙 Catalog 로드와 조회
 
 Editor/Bootstrap/
   서비스 생성, Unity 진입점, 수명 관리
 
 Editor/Infrastructure/
-  코드 수집, 설정 저장, Redirect 코드 생성
+  코드 수집, 설정 저장, 프로젝트 Catalog 데이터 생성
 
 Editor/Presentation/
   Project Settings와 Inspector 화면
@@ -346,12 +347,13 @@ flowchart TD
     Editor --> Contracts
     Logic --> Contracts
     Runtime --> Contracts
+    Runtime --> Logic
 ```
 
 `Contracts`와 `Logic`은 Unity API에 의존하지 않습니다.
 
-`Runtime`은 Unity 직렬화를 지원하며,
-`Editor`와 `Logic`을 참조하지 않습니다.
+`Runtime`은 Unity 직렬화와 Player Catalog 로드를 지원하며,
+`Logic`과 `Contracts`를 참조하지만 `Editor`는 참조하지 않습니다.
 
 Editor의 Bootstrap, Infrastructure, Presentation은
 하나의 Editor 어셈블리 안에서 역할을 구분한 폴더입니다.
@@ -371,7 +373,9 @@ flowchart TD
 
     Catalog --> SettingsView["Project Settings"]
     Catalog --> Inspector["Inspector 선택 목록"]
-    Catalog --> Generator["Redirect 코드 생성"]
+    Catalog --> Publisher["Catalog 데이터 자동 생성"]
+    Publisher --> DataPackage["숨김 프로젝트 데이터 패키지"]
+    DataPackage --> Runtime["Player 시작 시 자동 로드"]
 ```
 
 Builder는 같은 태그를 합치고 부모·자식 계층을 구성합니다.
@@ -416,10 +420,11 @@ State.Dead  IsExplicit = true
 
 | 타입 | 역할 |
 |---|---|
-| `HierarchyTag` | 단일 태그의 저장·비교·계층 조회와 역직렬화 Redirect 적용 |
+| `HierarchyTag` | 단일 태그의 저장·비교·계층 조회와 지연 Redirect 적용 |
 | `HierarchyTagContainer` | 여러 태그의 보관·포함 검사·중복 방지·정규화 |
 | `HierarchyTagDefinitionsAttribute` | 코드 태그 선언 클래스를 표시 |
-| `HierarchyTagRedirects` | 컴파일된 Redirect 조회표 제공 |
+| `HierarchyTagsManager` | 현재 중앙 Catalog의 태그와 Redirect 조회 진입점 |
+| `HierarchyTagsRuntime` | Player 시작 시 프로젝트 Catalog 데이터를 자동 로드 |
 
 `HierarchyTag`는 문자열을 보관하며,
 동일성·정렬·Dictionary 해시에 대소문자 무시 규칙을 사용합니다.
@@ -427,15 +432,15 @@ State.Dead  IsExplicit = true
 `StableHash`는 별도로 계산하는 64비트 해시입니다.
 해시 충돌 가능성이 있으므로 태그 자체를 대체하는 고유 ID로 사용하지 않습니다.
 
-Player에서 전체 Editor Catalog를 자동으로 구성하지는 않습니다.
-일반 태그 비교와 역직렬화는 태그 값과 컴파일된 Redirect 조회표로 동작합니다.
+Player에서는 빌드에 포함된 프로젝트 Catalog 데이터를 시작 시 자동으로 읽습니다.
+사용자가 초기화 코드를 작성하거나 준비 메뉴를 누를 필요는 없습니다.
 
 ### Editor/Bootstrap: 생성과 수명 관리
 
 | 클래스 | 역할 |
 |---|---|
 | `HierarchyTagEditorBootstrap` | 서비스 조립, Catalog 갱신, 이벤트 구독, Play 진입 검사 |
-| `HierarchyTagBuildProcessor` | 빌드 전 Catalog와 Redirect 코드 준비 상태 확인 |
+| `HierarchyTagBuildProcessor` | 빌드 전 프로젝트 Catalog 데이터 준비 상태 확인 |
 | `HierarchyTagCatalogCommands` | Catalog 관련 Editor 메뉴와 출력 |
 | `HierarchyTagSettingsProvider` | Project Settings 등록과 View 연결 |
 | `HierarchyTagPropertyDrawer` | 단일 태그 Inspector 진입점 |
@@ -448,7 +453,8 @@ Player에서 전체 Editor Catalog를 자동으로 구성하지는 않습니다.
 | `CodeTagRegistrationSource` | Attribute가 붙은 클래스의 태그 필드를 수집 |
 | `SettingsTagRegistrationSource` | 수동 설정을 등록 정보로 변환 |
 | `HierarchyTagSettings` | 수동 태그·Redirect 파일 저장과 변경 알림 |
-| `HierarchyTagRedirectCodeGenerator` | 프로젝트별 Redirect 코드 생성 |
+| `HierarchyTagCatalogPackageWriter` | 숨김 프로젝트 데이터 패키지와 Catalog JSON 작성 |
+| `HierarchyTagCatalogAutoPublisher` | Catalog 변경 후 데이터 패키지 자동 갱신 |
 
 ### Editor/Presentation: 화면 표시와 입력
 
@@ -464,24 +470,24 @@ View는 전달받은 Catalog와 서비스를 사용합니다.
 등록 정책은 관리 로직에서 처리하고,
 Inspector의 필드 변경은 `SerializedProperty`를 통해 반영합니다.
 
-### Redirect 생성 코드가 연결되는 방식
+### 프로젝트 Catalog 데이터가 연결되는 방식
 
 ```mermaid
 flowchart LR
-    Settings["설정의 Redirect"] --> Generator["Editor 코드 생성기"]
-    Generator --> Generated["Assets/HierarchyTags.Generated"]
-    Generated --> Assembly["asmref로 Runtime 어셈블리에 포함"]
-    Assembly --> Deserialize["역직렬화에서 조회"]
+    Sources["코드 태그와 프로젝트 설정"] --> Catalog["Editor 중앙 Catalog"]
+    Catalog --> Publisher["AutoPublisher"]
+    Publisher --> Data["숨김 데이터 패키지의 Catalog.json"]
+    Data --> Loader["Player 시작 시 Resources 로드"]
+    Loader --> Manager["HierarchyTagsManager"]
+    Manager --> Deserialize["역직렬화 값의 최초 사용 시 Redirect 해석"]
 ```
 
-패키지에는 `HierarchyTagRedirects`의 partial 선언이 있고,
-프로젝트 생성 파일에는 태그 연결 정보를 채우는 partial 구현이 있습니다.
+Editor는 코드 선언과 프로젝트 설정을 합쳐 중앙 Catalog를 만들고,
+실행에 필요한 등록과 최종 Redirect를 JSON 데이터로 내보냅니다.
+이 데이터는 프로젝트의 숨김 embedded package 아래 Resources에 저장되어 Player 빌드에 포함됩니다.
 
-생성 폴더의 `.asmref`는 Runtime 어셈블리를 참조합니다.
-두 코드가 같은 어셈블리에 포함되므로 패키지 소스나 캐시를 수정하지 않습니다.
-
-역직렬화 콜백에서는 컴파일된 조회표만 사용합니다.
-파일이나 Editor Catalog를 직접 읽지 않습니다.
+Player는 첫 씬의 `Awake`보다 먼저 데이터를 읽어 `HierarchyTagsManager`에 설치합니다.
+역직렬화 콜백 자체는 Catalog를 조회하지 않으며, 저장된 값은 최초 사용 시 해석됩니다.
 
 ## 제공 범위
 

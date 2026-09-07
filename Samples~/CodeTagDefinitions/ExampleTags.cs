@@ -6,13 +6,13 @@ namespace HierarchyTags.Samples
     [HierarchyTagDefinitions]
     public static class ExampleTags
     {
-        public static readonly HierarchyTag StateAlive =
+        public static readonly HierarchyTag State_Alive =
             new HierarchyTag("State.Alive");
 
-        public static readonly HierarchyTag StateDead =
+        public static readonly HierarchyTag State_Dead =
             new HierarchyTag("State.Dead");
 
-        public static readonly HierarchyTag WidgetModal =
+        public static readonly HierarchyTag Widget_Modal =
             new HierarchyTag("Widget.Modal");
     }
 }

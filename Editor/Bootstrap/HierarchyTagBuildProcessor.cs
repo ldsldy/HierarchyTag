@@ -14,7 +14,7 @@ namespace HierarchyTags.Editor.Bootstrap
         {
             try
             {
-                HierarchyTagEditorBootstrap.EnsureCatalogAndRedirectsReady(out var catalog);
+                HierarchyTagEditorBootstrap.EnsureCatalogReady(out var catalog);
 
                 var data =
                     HierarchyTagCatalogDataConverter.Export(catalog, HierarchyTagSettings.instance.ReadRedirects());

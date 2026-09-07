@@ -3,7 +3,6 @@ using System.IO;
 using System.Text;
 using HierarchyTags.Contracts;
 using UnityEditor;
-using UnityEditor.PackageManager;
 using UnityEngine;
 
 namespace HierarchyTags.Editor.Infrastructure
@@ -26,6 +25,54 @@ namespace HierarchyTags.Editor.Infrastructure
             "  \"hideInEditor\": true\n" +
             "}\n";
 
+        [Serializable]
+        private sealed class PackageManifestData
+        {
+            public string name;
+            public string version;
+            public string description;
+        }
+
+        private static void ValidateManifest(string manifestPath)
+        {
+            if (!File.Exists(manifestPath))
+            {
+                throw new InvalidOperationException(
+                    "데이터 패키지 폴더에 package.json이 없습니다. " +
+                    "기존 폴더의 내용을 확인하세요: " +
+                    PackageDirectory);
+            }
+
+            PackageManifestData actual;
+            PackageManifestData expected;
+
+            try
+            {
+                actual = JsonUtility.FromJson<PackageManifestData>(
+                    File.ReadAllText(manifestPath));
+
+                expected =
+                    JsonUtility.FromJson<PackageManifestData>(Manifest);
+            }
+            catch (ArgumentException exception)
+            {
+                throw new InvalidOperationException(
+                    "데이터 패키지의 package.json을 읽을 수 없습니다.",
+                    exception);
+            }
+
+            if (actual == null ||
+                !string.Equals(actual.name, expected.name, StringComparison.Ordinal) ||
+                !string.Equals(actual.version, expected.version, StringComparison.Ordinal) ||
+                !string.Equals(actual.description, expected.description, StringComparison.Ordinal))
+            {
+                throw new InvalidOperationException(
+                    "같은 이름의 데이터 패키지가 있지만 " +
+                    "지원하는 생성 패키지 형식과 일치하지 않습니다: " +
+                    PackageDirectory);
+            }
+        }
+
         internal static bool Write(HierarchyTagCatalogData data)
         {
             string projectRoot = Path.GetFullPath(Path.Combine(UnityEngine.Application.dataPath, ".."));
@@ -38,12 +85,7 @@ namespace HierarchyTags.Editor.Infrastructure
             // 같은 이름의 다른 패키지를 덮어쓰지 않습니다.
             if (Directory.Exists(directory))
             {
-                if (!File.Exists(manifestPath) ||
-                    File.ReadAllText(manifestPath) != Manifest)
-                {
-                    throw new InvalidOperationException(
-                        "같은 이름의 데이터 패키지가 있지만 이 생성기의 관리 대상과 일치하지 않습니다: " + PackageDirectory);
-                }
+                ValidateManifest(manifestPath);
             }
             else
             {

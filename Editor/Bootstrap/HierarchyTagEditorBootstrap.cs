@@ -92,7 +92,7 @@ namespace HierarchyTags.Editor.Bootstrap
 
             try
             {
-                EnsureCatalogAndRedirectsReady(out ITagCatalog catalog);
+                EnsureCatalogReady(out ITagCatalog catalog);
 
                 // 갱신이 성공한 사전을 플레이어 데이터에도 반영합니다.
                 HierarchyTagCatalogAutoPublisher.Request();
@@ -151,13 +151,13 @@ namespace HierarchyTags.Editor.Bootstrap
                         EditorApplication.isPlaying = false;
 
                         Debug.LogWarning(
-                            "Redirect 조회 코드의 컴파일이 필요합니다. " +
-                            "컴파일 완료 후 Play를 다시 실행하세요.");
+                            "Unity의 컴파일 또는 에셋 임포트가 진행 중입니다. " +
+                            "완료 후 Play를 다시 실행하세요.");
 
                         return;
                     }
 
-                    EnsureCatalogAndRedirectsReady(out _);
+                    EnsureCatalogReady(out _);
                 }
                 catch (Exception exception)
                 {
@@ -204,7 +204,7 @@ namespace HierarchyTags.Editor.Bootstrap
             return result != null;
         }
 
-        internal static bool EnsureCatalogAndRedirectsReady(out ITagCatalog catalog)
+        internal static void EnsureCatalogReady(out ITagCatalog catalog)
         {
             catalog = null;
 
@@ -221,7 +221,6 @@ namespace HierarchyTags.Editor.Bootstrap
                 catalog = nextCatalog;
                 errorMessage = string.Empty;
 
-                return true;
             }
             catch
             {
@@ -239,7 +238,7 @@ namespace HierarchyTags.Editor.Bootstrap
 
             try
             {
-                EnsureCatalogAndRedirectsReady(out _);
+                EnsureCatalogReady(out _);
             }
             catch (Exception exception)
             {
