@@ -3,7 +3,7 @@
     "rootNamespace": "HierarchyTags.Editor",
     "references": [
         "HierarchyTags.Contracts",
-        "HierarchyTags.Logic"
+        "HierarchyTags.Logic",
         "HierarchyTags.Runtime",
     ],
     "includePlatforms": [
